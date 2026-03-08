@@ -1,0 +1,15 @@
+<div>
+    <h3>Sveiks, {{ userData.email }} !</h3>
+</div>
+
+<div class="container-fluid">
+    <div class="row">
+        @for(auto of autosForm.allAutos; track $index; let i=$index){
+        <p>Modelis:{{auto.model().value()}} </p>
+        <p>Gads:{{auto.year().value()}} </p>
+        <p>Krāsa:{{auto.color().value()}} </p>
+        <p>Nobraukums:{{auto.milage().value()}} </p>
+        <p>Cena:{{auto.price().value()}} </p>
+        }
+    </div>
+</div>

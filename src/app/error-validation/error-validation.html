@@ -1,0 +1,7 @@
+<div>
+    @if(fieldState().invalid() && fieldState().touched()) {
+        @for(err of fieldState().errors(); track err) {
+            <p style="color: red">{{err.message}}</p>
+        }
+    }
+</div>

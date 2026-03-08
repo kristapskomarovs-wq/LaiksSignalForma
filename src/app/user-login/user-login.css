@@ -1,0 +1,11 @@
+.bmwBackground {
+   background-image: url("/loginBackground.jpg");
+   background-size: cover;
+    background-position: center;
+    min-height: 100vh;
+    width: 100%;
+}
+
+.bmwBackground input {
+    background-color: #fff;
+}
