@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
+import { UserDataService } from '../services/user-data';
 
 @Component({
   selector: 'app-shop-admin',
@@ -6,6 +7,7 @@ import { Component } from '@angular/core';
   templateUrl: './shop-admin.html',
   styleUrl: './shop-admin.css',
 })
-export class ShopAdmin {
+export class ShopAdmin{
 
-}
+  userDataService = inject(UserDataService);
+  }
