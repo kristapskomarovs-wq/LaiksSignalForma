@@ -5,6 +5,7 @@ export interface AutoModel {
     color: string;
     milage: number;
     price: number;
+    quantity: number;
 }
 
 export interface AllAutosModel {

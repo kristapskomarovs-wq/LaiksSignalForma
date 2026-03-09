@@ -4,6 +4,7 @@ import { UserDataShopModel } from '../user-login/user-login.model';
 import { AllAutosModel, AutoModel } from './shop_model';
 import { form } from '@angular/forms/signals';
 import { AutosService } from '../services/autos-service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-shop',
@@ -13,11 +14,13 @@ import { AutosService } from '../services/autos-service';
 })
 export class Shop implements OnInit {
   userDataService = inject(UserDataService);
-  userData: UserDataShopModel = this.userDataService.userData();
+  userData: UserDataShopModel = this.userDataService.getUserData();
   autosService = inject(AutosService);
   allAutosSignal = signal<AllAutosModel>({ allAutos: [] });
   autosForm = form(this.allAutosSignal);
-       
+  isAdmin: boolean = this.userData.email.toLowerCase() === 'admin@gmail.com';
+  router = inject(Router);    
+ 
   ngOnInit(): void {
     this.startShop();
     }
@@ -38,4 +41,11 @@ export class Shop implements OnInit {
       }
     });
   }
+
+  onAdmin() {
+    this.router.navigateByUrl('/admin');
+  }
 }
+
+
+
