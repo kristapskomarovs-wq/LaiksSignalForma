@@ -10,7 +10,13 @@ export class AdminService {
   http = inject(HttpClient);
 
  public addAuto(auto: AutoModel) : Observable<HttpResponse<void>> {
-    return this.http.post<void>('http://localhost:8088/api/v1/addauto', auto, {
+    return this.http.post<void>('/api/v1/addauto', auto, {
+      observe: 'response',
+    });
+  }
+
+  public updateAuto(auto: AutoModel): Observable<HttpResponse<void>> {
+    return this.http.put<void>(`/api/v1/updateauto/${auto.id}`, auto, {
       observe: 'response',
     });
   }

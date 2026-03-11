@@ -1,53 +1,66 @@
 <div class="container py-5 ">
   <div class="row justify-content-center">
-    <div class="col-md-6">
+    <div class="col-12">
       <div class="card shadow">
         <div class="card-header bg-dark text-white">
           <h4 class="mb-0">Sveiks, admin!</h4>
         </div>
-        <div class="card-body">
-
-          <div class="mb-3">
-            <label for="model" class="form-label">Modelis</label>
-            <input type="text" id="model" class="form-control" placeholder="Modelis" [formField]="autosForm.model">
-          </div>
-
-          <div class="mb-3">
-            <label for="year" class="form-label">Gads</label>
-            <input type="number" id="year" class="form-control" placeholder="Gads" [formField]="autosForm.year">
-          </div>
-
-          <div class="mb-3">
-            <label for="color" class="form-label">Krāsa</label>
-            <input type="text" id="color" class="form-control" placeholder="Krāsa" [formField]="autosForm.color">
-          </div>
-
-          <div class="mb-3">
-            <label for="milage" class="form-label">Nobraukums</label>
-            <div class="input-group">
-              <input type="number" id="milage" class="form-control" placeholder="Nobraukums" [formField]="autosForm.milage">
-              <span class="input-group-text">km</span>
+        <div class="card-body admin-grid">
+          @for (auto of autosForm.allAutos; track $index; let i = $index) {
+          <section class="auto-window">
+            <div class="window-header">
+              <h5 class="mb-0">Auto #{{ i + 1 }}</h5>
             </div>
-          </div>
 
-          <div class="mb-3">
-            <label for="price" class="form-label">Cena</label>
-            <div class="input-group">
-              <input type="number" id="price" class="form-control" placeholder="Cena" [formField]="autosForm.price">
-              <span class="input-group-text">EUR</span>
+            <div class="mb-3">
+              <label for="model-{{ i }}" class="form-label">Modelis</label>
+              <input type="text" id="model-{{ i }}" class="form-control" placeholder="Modelis" [formField]="auto.model">
             </div>
-          </div>
 
-          <div class="mb-3">
-            <label for="quantity" class="form-label">Daudzums</label>
-            <input type="number" id="quantity" class="form-control" placeholder="Daudzums" [formField]="autosForm.quantity">
-          </div>
+            <div class="mb-3">
+              <label for="year-{{ i }}" class="form-label">Gads</label>
+              <input type="number" id="year-{{ i }}" class="form-control" placeholder="Gads" [formField]="auto.year">
+            </div>
 
-          <div class="d-grid">
-            <div class="col-12 justify-content-center d-flex">
-            <button type="button" class="btn btn-outline-success" (click)="onSubmit()">Pievienot datu bāzei!</button>
-          </div>
+            <div class="mb-3">
+              <label for="color-{{ i }}" class="form-label">Krāsa</label>
+              <input type="text" id="color-{{ i }}" class="form-control" placeholder="Krāsa" [formField]="auto.color">
+            </div>
 
+            <div class="mb-3">
+              <label for="milage-{{ i }}" class="form-label">Nobraukums</label>
+              <div class="input-group">
+                <input type="number" id="milage-{{ i }}" class="form-control" placeholder="Nobraukums" [formField]="auto.milage">
+                <span class="input-group-text">km</span>
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="price-{{ i }}" class="form-label">Cena</label>
+              <div class="input-group">
+                <input type="number" id="price-{{ i }}" class="form-control" placeholder="Cena" [formField]="auto.price">
+                <span class="input-group-text">EUR</span>
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="quantity-{{ i }}" class="form-label">Daudzums</label>
+              <input type="number" id="quantity-{{ i }}" class="form-control" placeholder="Daudzums" [formField]="auto.quantity">
+            </div>
+
+            <div class="d-grid">
+              @if(auto.id == null) {
+              <div class="col-12 justify-content-center d-flex">
+                <button type="button" class="btn btn-outline-success" (click)="onSubmit(i)">Pievienot datu bāzei!</button>
+              </div>
+              }@else {
+               <div class="col-12 justify-content-center d-flex">
+                <button type="button" class="btn btn-outline-success" (click)="onUpdate(i)">Atjaunināt datu bāzi!</button>
+              </div>
+              }
+            </div>
+          </section>
+          }
         </div>
       </div>
     </div>

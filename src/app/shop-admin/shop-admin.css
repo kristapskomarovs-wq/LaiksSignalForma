@@ -9,3 +9,40 @@ input[type=number] {
   -moz-appearance: textfield;
   appearance: textfield;
 }
+
+.admin-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0;
+  padding: 0;
+  background: #1f1f1f;
+  border-top: 4px solid #1f1f1f;
+  border-left: 4px solid #1f1f1f;
+}
+
+.auto-window {
+  min-height: 100%;
+  padding: 1.25rem;
+  background: #ffffff;
+  border-right: 4px solid #1f1f1f;
+  border-bottom: 4px solid #1f1f1f;
+}
+
+.window-header {
+  margin: -1.25rem -1.25rem 1rem;
+  padding: 0.9rem 1.25rem;
+  background: #f2f2f2;
+  border-bottom: 4px solid #1f1f1f;
+}
+
+@media (max-width: 991.98px) {
+  .admin-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 767.98px) {
+  .admin-grid {
+    grid-template-columns: 1fr;
+  }
+}

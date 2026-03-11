@@ -9,7 +9,7 @@ export class AutosService {
   http = inject(HttpClient);
 
   public getAllAutos() {
-    return this.http.get<AutoModel[]>('http://localhost:8088/api/v1/getallautos', {
+    return this.http.get<AutoModel[]>('/api/v1/getallautos', {
       observe: 'response',
     });
   }
