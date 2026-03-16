@@ -90,5 +90,25 @@ onUpdate(index: number) {
       alert(`Update failed: ${err.status} ${err.statusText}\n${JSON.stringify(err.error)}`);
     }
   });
-} 
+}
+
+onDelete(index: number) {
+  const id = this.allAutosSignal().allAutos[index].id;
+  if (!id) return;
+
+  if (!confirm('Vai tiešām vēlaties dzēst šo auto?')) return;
+
+  this.adminService.deleteAuto(id).subscribe({
+    next: (r) => {
+      if (r.status === 200) {
+        alert('Auto veiksmīgi dzēsts! 🗑️');
+        this.allAutos(); // re-fetch the list
+      }
+    },
+    error: (err) => {
+      console.error('Error deleting auto:', err);
+      alert(`Dzēšana neizdevās: ${err.status} ${err.statusText}`);
+    }
+  });
+}
 }
