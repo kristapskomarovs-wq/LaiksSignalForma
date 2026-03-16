@@ -6,6 +6,7 @@ export interface AutoModel {
     milage: number;
     price: number;
     quantity: number;
+    imageUrl: string;
 }
 
 export interface AllAutosModel {

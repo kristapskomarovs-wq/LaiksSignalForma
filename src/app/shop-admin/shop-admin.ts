@@ -47,7 +47,7 @@ export class ShopAdmin implements OnInit {
         this.allAutosSignal.set({ allAutos: autos.body ?? [] });
         this.allAutosSignal.update((current) =>
            ({ allAutos: 
-            [...current.allAutos, { model: '', year: 0, color: '', milage: 0, price: 0, quantity: 0 }] })
+            [...current.allAutos, { model: '', year: 0, color: '', milage: 0, price: 0, quantity: 0, imageUrl: '' }] })
         );
       },
       error: (err) => {
