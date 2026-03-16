@@ -4,7 +4,7 @@ import { AllAutosModel, AutoModel } from '../shop/shop_model';
 import { applyEach, form, FormField, min, required } from '@angular/forms/signals';
 import { AdminService } from '../services/admin-service';
 import { AutosService } from '../services/autos-service';
-
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-shop-admin',
   imports: [FormField],
@@ -13,9 +13,9 @@ import { AutosService } from '../services/autos-service';
 })
 export class ShopAdmin implements OnInit {
  
-
   adminService = inject(AdminService);
   autosService = inject(AutosService);
+  router = inject(Router);
   // autoSignal = signal<AutoModel>({ 
   // model: '',
   // year: 0, 
@@ -23,13 +23,11 @@ export class ShopAdmin implements OnInit {
   // milage: 0, 
   // price: 0, 
   // quantity: 0 });
-
   allAutosSignal = signal<AllAutosModel>({ allAutos: [] });
   
   ngOnInit(): void {
     this.allAutos();
   }
-
   autosForm = form(this.allAutosSignal, (e) => {
     applyEach(e.allAutos, (b) => {
       min(b.model, 3, {message: 'Model must be at least 3 characters long'});
@@ -40,6 +38,9 @@ export class ShopAdmin implements OnInit {
       min(b.quantity, 0, {message: 'Quantity must be 0 or more'});
     });
   });
+  onShop() {
+    this.router.navigateByUrl('/shop');
+  }
 
   allAutos() {
     this.autosService.getAllAutos().subscribe({
@@ -55,9 +56,7 @@ export class ShopAdmin implements OnInit {
         alert('An error occurred while fetching autos. Please try again later.');
       }
     });
-
   }
-
   onSubmit(index: number) {
   this.adminService.addAuto(this.autosForm().value().allAutos[index]).subscribe({
     next: (r) => {
@@ -71,14 +70,11 @@ export class ShopAdmin implements OnInit {
     }
   });
 }
-
 onUpdate(index: number) {
   const id = this.allAutosSignal().allAutos[index].id;
   if (!id) return;
-
   const auto = { ...this.autosForm().value().allAutos[index], id };
   console.log('Sending update:', auto);
-
   this.adminService.updateAuto(auto).subscribe({
     next: (r) => {
       if (r.status === 200) {
@@ -90,5 +86,51 @@ onUpdate(index: number) {
       alert(`Update failed: ${err.status} ${err.statusText}\n${JSON.stringify(err.error)}`);
     }
   });
-} 
+}
+onDelete(index: number) {
+  const id = this.allAutosSignal().allAutos[index].id;
+  if (!id) return;
+  if (!confirm('Vai tiešām vēlaties dzēst šo auto?')) return;
+  this.adminService.deleteAuto(id).subscribe({
+    next: (r) => {
+      if (r.status === 200) {
+        alert('Auto veiksmīgi dzēsts! 🗑️');
+        this.allAutos(); // re-fetch the list
+      }
+    },
+    error: (err) => {
+      console.error('Error deleting auto:', err);
+      alert(`Dzēšana neizdevās: ${err.status} ${err.statusText}`);
+    }
+  });
+}
+
+  onFileSelected(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      this.adminService.selectedFile.set(input.files[0]);
+    }
+  }
+
+  onUpload(index: number) {
+    const id = this.allAutosSignal().allAutos[index].id;
+    if (!id) return;
+    
+    const file = this.adminService.selectedFile();
+    if (!(file instanceof File) || file.size === 0) {
+      alert('Lūdzu izvēlieties attēlu pirms augšupielādes!');
+      return;
+    }
+    this.adminService.onUpload(id).subscribe({
+      next: (r) => {
+        if (r.status === 200) {
+          alert('Attēls veiksmīgi augšupielādēts! ✅');
+        }
+      },
+      error: (err) => {
+        console.error('Error uploading image:', err);
+        alert(`Augšupielāde neizdevās: ${err.status} ${err.statusText}`);
+      }
+    });
+  }
 }

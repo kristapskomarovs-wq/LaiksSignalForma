@@ -1,20 +1,48 @@
-<div>
-    <h3>Sveiks, {{ userData.email }} !</h3>
-</div>
-
-<div class="container-fluid">
-    <div class="row">
-        @for(auto of autosForm.allAutos; track $index; let i=$index){
-        <p>Modelis:{{auto.model().value()}} </p>
-        <p>Gads:{{auto.year().value()}} </p>
-        <p>Krāsa:{{auto.color().value()}} </p>
-        <p>Nobraukums:{{auto.milage().value()}} </p>
-        <p>Cena:{{auto.price().value()}} </p>
-        }
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-12">
+      <div class="card shadow">
+        <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+          <h4 class="mb-0">Sveiks, {{ userData.email }}!</h4>
+          @if (isAdmin) {
+            <button type="button" class="btn btn-outline-light btn-sm" (click)="onAdmin()">Admin</button>
+          }
+        </div>
+        <div class="card-body shop-grid">
+          @for (auto of allAutosSignal().allAutos; track $index; let i = $index) {
+          <section class="shop-window">
+            @if (auto.imageUrl) {
+              <img [src]="'/api/v1/getimage/' + auto.imageUrl" class="img-fluid rounded mb-3" alt="Auto attēls" style="max-height: 180px; object-fit: cover; width: 100%;">
+            }
+            <div class="window-header">
+              <h5 class="mb-0">{{ auto.model }}</h5>
+            </div>
+            <ul class="list-unstyled mt-3 mb-0">
+              <li class="d-flex justify-content-between py-1 border-bottom">
+                <span class="text-muted">Gads</span>
+                <strong>{{ auto.year }}</strong>
+              </li>
+              <li class="d-flex justify-content-between py-1 border-bottom">
+                <span class="text-muted">Krāsa</span>
+                <strong>{{ auto.color }}</strong>
+              </li>
+              <li class="d-flex justify-content-between py-1 border-bottom">
+                <span class="text-muted">Nobraukums</span>
+                <strong>{{ auto.milage }} km</strong>
+              </li>
+              <li class="d-flex justify-content-between py-1 border-bottom">
+                <span class="text-muted">Cena</span>
+                <strong>{{ auto.price }} EUR</strong>
+              </li>
+              <li class="d-flex justify-content-between py-1">
+                <span class="text-muted">Daudzums</span>
+                <strong>{{ auto.quantity }}</strong>
+              </li>
+            </ul>
+          </section>
+          }
+        </div>
+      </div>
     </div>
-    @if(isAdmin){
-    <button type="button" (click)="onAdmin()">Admin</button>
-    }
-
-    
+  </div>
 </div> 
