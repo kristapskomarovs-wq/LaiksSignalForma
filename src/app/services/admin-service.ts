@@ -20,4 +20,10 @@ export class AdminService {
       observe: 'response',
     });
   }
+
+  public deleteAuto(id: number): Observable<HttpResponse<void>> {
+    return this.http.delete<void>(`/api/v1/deleteauto/${id}`, {
+      observe: 'response',
+    });
+  }
 }
